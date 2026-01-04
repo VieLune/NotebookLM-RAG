@@ -1,0 +1,31 @@
+# GeminiDocAgent Configuration
+
+gemini:
+  # API Key will be loaded from environment variable GEMINI_API_KEY
+  model: "gemini-pro"
+  temperature: 0.3
+  max_tokens: 2000
+
+vector_store:
+  type: "chroma"
+  persist_directory: "./data/vector_db"
+  collection_name: "gemini_doc_agent"
+
+document:
+  chunk_size: 1000
+  chunk_overlap: 200
+  supported_formats: 
+    - ".pdf"
+    - ".txt"
+    - ".docx"
+    - ".md"
+    - ".html"
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true
+
+paths:
+  upload_dir: "./data/uploads"
+

@@ -1,77 +1,58 @@
-# MiniNotebookLM
+# GeminiDocAgent
 
-基于 Python (Conda环境)、LangChain 和 Gemini API 的 RAG 应用，类似 NotebookLM。
+GeminiDocAgent 是一个基于 Google Gemini API 和 LangChain 的智能文档分析 Agent，旨在提供类似 NotebookLM 的文档问答和分析体验。
 
-## 环境设置
+## 快速开始
 
-### 1. 创建 Conda 环境
+### 1. 环境准备
 
-使用项目提供的 `environment.yml` 文件创建 Conda 环境：
+**使用 Conda (推荐)**:
 
 ```bash
 conda env create -f environment.yml
+conda activate gemini-doc-agent
 ```
 
-### 2. 激活环境
+**或者使用 pip**:
 
-**Windows (CMD):**
-```bash
-conda activate notebooklm-rag
-```
-
-**Windows (PowerShell):**
-```powershell
-conda activate notebooklm-rag
-```
-
-**Linux/macOS:**
-```bash
-conda activate notebooklm-rag
-```
-
-### 3. 配置环境变量
-
-1. 复制 `env.example` 文件为 `.env`：
-   ```bash
-   copy env.example .env
-   ```
-   (Linux/macOS 使用: `cp env.example .env`)
-
-2. 编辑 `.env` 文件，填入您的 Google Gemini API Key：
-   ```
-   GOOGLE_API_KEY=your_actual_api_key_here
-   ```
-
-### 4. 运行 Streamlit 应用
-
-在激活的 Conda 环境中运行：
+确保安装 Python 3.9+。
 
 ```bash
-streamlit run main.py
+pip install -r requirements.txt
 ```
 
-应用将在浏览器中自动打开，默认地址为 `http://localhost:8501`
+### 2. 配置
+
+复制环境变量模板并填写你的 Gemini API Key：
+
+```bash
+cp .env.example .env
+# 编辑 .env 文件填入 GEMINI_API_KEY
+```
+
+配置文件位于 `config.yaml`，通常无需修改即可运行。
+
+### 3. 运行服务
+
+#### 启动后端 API
+
+```bash
+python main.py
+```
+
+API 将在 `http://localhost:8000` 运行。
+
+#### 启动 Streamlit 界面 (开发中)
+
+```bash
+streamlit run streamlit_app.py
+```
 
 ## 项目结构
 
-```
-MiniNotebookLM/
-├── environment.yml      # Conda 环境配置
-├── env.example         # 环境变量示例
-├── .env                # 环境变量（需自行创建）
-├── main.py             # Streamlit 应用入口
-├── rag_engine.py       # RAG 引擎类
-└── README.md           # 项目说明
-```
-
-## 依赖说明
-
-- **langchain**: LangChain 核心库
-- **langchain-google-genai**: Google Gemini 集成
-- **langchain-community**: LangChain 社区扩展
-- **chromadb**: 向量数据库
-- **pypdf**: PDF 文档处理
-- **streamlit**: Web 应用框架
-- **python-dotenv**: 环境变量管理
-- **watchdogs**: Streamlit 文件监控依赖
+- `app/`: 核心代码
+  - `services/`: 业务逻辑 (文档处理, 向量存储, LLM)
+  - `api/`: FastAPI 路由
+  - `core/`: 配置管理
+- `data/`: 数据存储 (文档上传, 向量库)
 
