@@ -84,12 +84,22 @@ if prompt := st.chat_input("关于文档有什么问题？"):
         message_placeholder.markdown("思考中...")
         
         try:
-            response = chat_service.chat(prompt)
-            answer = response["answer"]
-            sources = response["source_documents"]
+            # 传入除了当前最新问题之外的历史记录
+            history = st.session_state.messages[:-1]
             
-            # 构建显示内容
-            full_response = answer + "\n\n---\n**参考来源:**\n"
+            full_answer = ""
+            sources = []
+            
+            # 使用流式 API
+            for chunk in chat_service.chat_stream(prompt, chat_history=history):
+                if chunk["type"] == "answer":
+                    full_answer += chunk["content"]
+                    message_placeholder.markdown(full_answer + "▌")
+                elif chunk["type"] == "source":
+                    sources = chunk["content"]
+            
+            # 构建最终显示内容
+            full_response = full_answer + "\n\n---\n**参考来源:**\n"
             seen_sources = set()
             for doc in sources:
                 source_name = os.path.basename(doc.metadata.get("source", "Unknown"))

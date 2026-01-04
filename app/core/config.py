@@ -13,7 +13,7 @@ class Config:
         
         # Gemini 配置
         self.GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-        self.GEMINI_MODEL = self.config.get("gemini", {}).get("model", "gemini-pro")
+        self.GEMINI_MODEL = self.config.get("gemini", {}).get("model", "gemini-2.5-flash")
         self.GEMINI_TEMPERATURE = self.config.get("gemini", {}).get("temperature", 0.3)
         self.GEMINI_MAX_TOKENS = self.config.get("gemini", {}).get("max_tokens", 2000)
         
@@ -21,6 +21,7 @@ class Config:
         self.VECTOR_STORE_TYPE = self.config.get("vector_store", {}).get("type", "chroma")
         self.VECTOR_DB_DIR = self.config.get("vector_store", {}).get("persist_directory", "./data/vector_db")
         self.COLLECTION_NAME = self.config.get("vector_store", {}).get("collection_name", "gemini_doc_agent")
+        self.SEARCH_TOP_K = self.config.get("vector_store", {}).get("search_top_k", 10)
         
         # 文档处理配置
         self.CHUNK_SIZE = self.config.get("document", {}).get("chunk_size", 1000)

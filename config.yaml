@@ -2,7 +2,7 @@
 
 gemini:
   # API Key will be loaded from environment variable GEMINI_API_KEY
-  model: "gemini-pro"
+  model: "gemini-2.5-flash"
   temperature: 0.3
   max_tokens: 2000
 
@@ -10,6 +10,7 @@ vector_store:
   type: "chroma"
   persist_directory: "./data/vector_db"
   collection_name: "gemini_doc_agent"
+  search_top_k: 60
 
 document:
   chunk_size: 1000

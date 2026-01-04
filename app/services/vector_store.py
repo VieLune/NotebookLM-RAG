@@ -39,14 +39,16 @@ class VectorStoreService:
         self.vector_store.add_documents(documents)
         self.vector_store.persist()
         
-    def search(self, query: str, k: int = 4) -> List[Document]:
+    def search(self, query: str, k: int = None) -> List[Document]:
         """相似度搜索"""
+        if k is None:
+            k = settings.SEARCH_TOP_K
         return self.vector_store.similarity_search(query, k=k)
 
     def get_retriever(self, search_kwargs: dict = None):
         """获取检索器对象，用于 Chain"""
         if search_kwargs is None:
-            search_kwargs = {"k": 4}
+            search_kwargs = {"k": settings.SEARCH_TOP_K}
         return self.vector_store.as_retriever(search_kwargs=search_kwargs)
 
     def clear(self):
